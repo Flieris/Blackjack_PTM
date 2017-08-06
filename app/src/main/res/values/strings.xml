@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Blackjack_PTM</string>
+    <string name="continue_game">Continue last game</string>
+    <string name="new_game">New game</string>
+    <string name="leader_board">Leaderboard</string>
+    <string name="exit">Exit</string>
+    <string name="dealer_score">Dealer\'s score</string>
+    <string name="player_score">Player\'s score</string>
+    <string name="hit_me">Hit</string>
+    <string name="pick_difficulty">Pick Difficulty</string>
+</resources>

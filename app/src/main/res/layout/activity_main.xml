@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.lenni.blackjack_ptm.MainActivity">
+
+    <Button
+        android:id="@+id/continue_game"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/continue_game"
+        android:enabled="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+    <Button
+        android:id="@+id/new_game"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/new_game"
+        android:layout_below="@id/continue_game"/>
+    <Button
+        android:id="@+id/leader_board"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/leader_board"
+        android:layout_below="@id/new_game"/>
+    <Button
+        android:id="@+id/exit_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/exit"
+        android:layout_below="@id/leader_board"/>
+</RelativeLayout>
