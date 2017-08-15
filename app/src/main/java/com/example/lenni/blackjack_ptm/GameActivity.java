@@ -1,5 +1,7 @@
 package com.example.lenni.blackjack_ptm;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,8 @@ public class GameActivity extends AppCompatActivity {
    int player_dealt, user_hand[], dealer_hand[], dealer_dealt;
    Integer hand_value, dealer_value;
    boolean in_win,in_lose, player_bust;
+
+
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -57,6 +61,26 @@ public class GameActivity extends AppCompatActivity {
             HitClick();
          }
       });
+      stand_button = (FloatingSubButton)findViewById(R.id.stand_action);
+      stand_button.setOnClickListener(new View.OnClickListener(){
+         @Override
+         public void onClick(View view){
+            StandClick();
+         }
+      });
+   }
+   public void ResetEverything(){
+      for(int i = 0; i < 5; i++){
+         player_image[i].setImageResource(R.drawable.back_blue);
+         dealer_image[i].setImageResource(R.drawable.back_blue);
+      }
+      hand_value = 0;
+      dealer_value = 0;
+      String player = "Player's hand " + hand_value.toString();
+      user_text.setText(player);
+      String dealer = "Dealer's hand " + dealer_value.toString();
+      dealer_text.setText(dealer);
+      GameStart();
    }
    private void GameStart(){
       player_dealt = 0;
@@ -68,6 +92,7 @@ public class GameActivity extends AppCompatActivity {
    }
    public void DealerCall(){
       int aces = 0;
+      dealer_value = 0;
       if(dealer_dealt < 5) {
          dealer_hand[dealer_dealt] = my_deck.getNewCard();
          dealer_image[dealer_dealt].setImageResource(my_deck.getCardResource(dealer_hand[dealer_dealt]));
@@ -106,13 +131,74 @@ public class GameActivity extends AppCompatActivity {
           }
 
          if (hand_value > 21){
-            //ShowLose();
+            ShowLose();
          }
 
          String output = "[Player] " + hand_value.toString();
          user_text.setText(output);
       }
    }
+   private void StandClick(){
+      do{
+         DealerCall();
+      } while (dealer_value < 17 && dealer_value <= hand_value && dealer_dealt < 5);
 
+      if (dealer_value > 21){
+         ShowWin();
+      }
+      else{
+         CompareScore();
+      }
+      if(dealer_dealt >= 5){
+         CompareScore();
+      }
+   }
+
+   private void CompareScore() {
+      if (dealer_value > hand_value){
+         ShowLose();
+      } else if (hand_value > dealer_value){
+         ShowWin();
+      } else{
+         AlertDialog draw = new AlertDialog.Builder(this)
+                 .setTitle("Game over!")
+                 .setMessage("Draw")
+                 .setNeutralButton("Play again?", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which) {
+                       in_win = false;
+                       ResetEverything();
+                    }
+                 }).show();
+      }
+   }
+
+   private void ShowWin() {
+      in_win = true;
+
+      AlertDialog win = new AlertDialog.Builder(this)
+              .setTitle("Game over!")
+              .setMessage("Gratz! You won!")
+              .setNeutralButton("Play again?", new DialogInterface.OnClickListener(){
+                 public void onClick(DialogInterface dialog, int which) {
+                    in_win = false;
+                    ResetEverything();
+                 }
+              }).show();
+   }
+
+
+   public void ShowLose(){
+      in_lose = true;
+
+      AlertDialog lose = new AlertDialog.Builder(this)
+              .setTitle("Game over!")
+              .setMessage("You lose! Good day sir!")
+              .setNeutralButton("Restart", new DialogInterface.OnClickListener(){
+                 public void onClick(DialogInterface dialog, int which) {
+                    in_lose = false;
+                    ResetEverything();
+                 }
+              }).show();
+   }
 
 }

@@ -12,7 +12,8 @@ public class CardDeck {
    private int card_dealt;
 
    public void CreateDeck(){
-      int first_card = R.drawable.clubs_01_75;
+      int first_card = R.drawable.zzzclubs_01;
+      int next_card = first_card + 1;
       int card = 0;
 
       final int value[] = {11,2,3,4,5,6,7,8,9,10,10,10,10};
@@ -34,7 +35,7 @@ public class CardDeck {
       deck[51].setNext(-1);
 
       // force shuffle on next read.
-      card_dealt = 43;
+      //card_dealt = 43;
    }
 
    public void Shuffle(){
