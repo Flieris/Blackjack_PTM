@@ -7,17 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import rjsv.floatingmenu.floatingmenubutton.FloatingMenuButton;
 import rjsv.floatingmenu.floatingmenubutton.subbutton.FloatingSubButton;
 
 public class GameActivity extends AppCompatActivity {
-   TextView user_text, dealer_text;
+   TextView user_text, dealer_text, money_text;
    CardDeck my_deck;
    ImageView player_image[], dealer_image[];
    FloatingSubButton hit_button, stand_button, surrender_button,bet_button;
    String player_name;
-   int player_dealt, user_hand[], dealer_hand[], dealer_dealt;
+   int player_dealt, user_hand[], dealer_hand[], dealer_dealt, money, bet;
    Integer hand_value, dealer_value;
    boolean in_win,in_lose, player_bust;
 
@@ -38,6 +39,9 @@ public class GameActivity extends AppCompatActivity {
       dealer_hand = new int[5];
       user_text = (TextView)findViewById(R.id.player_score);
       dealer_text = (TextView)findViewById(R.id.dealer_score);
+      money_text = (TextView)findViewById(R.id.player_money);
+      money = 100;
+      bet = 10;
 
       player_image = new ImageView[5];
       player_image[0] = (ImageView) findViewById(R.id.player_1);
@@ -68,18 +72,35 @@ public class GameActivity extends AppCompatActivity {
             StandClick();
          }
       });
+
+      surrender_button = (FloatingSubButton)findViewById(R.id.surrender_action);
+      surrender_button.setOnClickListener(new View.OnClickListener(){
+         @Override
+         public void onClick(View view){
+            SurrenderClick();
+         }
+      });
+
+      bet_button = (FloatingSubButton)findViewById(R.id.bet_action);
+      bet_button.setOnClickListener(new View.OnClickListener(){
+         @Override
+         public void onClick(View view){
+            ChangeBet();
+         }
+      });
    }
    public void ResetEverything(){
+      hand_value = 0;
+      dealer_value = 0;
       for(int i = 0; i < 5; i++){
          player_image[i].setImageResource(R.drawable.back_blue);
          dealer_image[i].setImageResource(R.drawable.back_blue);
       }
-      hand_value = 0;
-      dealer_value = 0;
       String player = "Player's hand " + hand_value.toString();
       user_text.setText(player);
       String dealer = "Dealer's hand " + dealer_value.toString();
       dealer_text.setText(dealer);
+      money_text.setText("Money = " + money + "$");
       GameStart();
    }
    private void GameStart(){
@@ -153,52 +174,65 @@ public class GameActivity extends AppCompatActivity {
          CompareScore();
       }
    }
+   private void SurrenderClick(){
+      AlertDialog surrender = new AlertDialog.Builder(this)
+              .setTitle("Give up?")
+              .setMessage("Do you want to give up on this game?")
+              .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                 }
+              })
+              .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialogInterface, int i) {
 
+                 }
+              }).show();
+   }
+   private void ChangeBet(){
+
+   }
    private void CompareScore() {
       if (dealer_value > hand_value){
          ShowLose();
       } else if (hand_value > dealer_value){
          ShowWin();
       } else{
-         AlertDialog draw = new AlertDialog.Builder(this)
-                 .setTitle("Game over!")
-                 .setMessage("Draw")
-                 .setNeutralButton("Play again?", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int which) {
-                       in_win = false;
-                       ResetEverything();
-                    }
-                 }).show();
+         Toast toast = Toast.makeText(getApplicationContext(),"Draw!",Toast.LENGTH_SHORT);
+         toast.show();
+         ResetEverything();
       }
    }
 
    private void ShowWin() {
-      in_win = true;
-
-      AlertDialog win = new AlertDialog.Builder(this)
-              .setTitle("Game over!")
-              .setMessage("Gratz! You won!")
-              .setNeutralButton("Play again?", new DialogInterface.OnClickListener(){
-                 public void onClick(DialogInterface dialog, int which) {
-                    in_win = false;
-                    ResetEverything();
-                 }
-              }).show();
+      money += bet * 2;
+      Toast toast = Toast.makeText(getApplicationContext(), "You won this round!", Toast.LENGTH_SHORT);
+      toast.show();
+      ResetEverything();
    }
 
 
    public void ShowLose(){
-      in_lose = true;
+      money -= bet*2;
+      if (money > bet*2){
+         Toast toast = Toast.makeText(getApplicationContext(),"You lost this round!",Toast.LENGTH_SHORT);
+         toast.show();
+         ResetEverything();
+      }
+      else{
+         AlertDialog lose = new AlertDialog.Builder(this)
+                 .setTitle("Game over!")
+                 .setMessage("You lose! Good day sir!")
+                 .setNeutralButton("Restart", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which) {
+                       money = 100;
+                       ResetEverything();
+                    }
+                 }).show();
+      }
 
-      AlertDialog lose = new AlertDialog.Builder(this)
-              .setTitle("Game over!")
-              .setMessage("You lose! Good day sir!")
-              .setNeutralButton("Restart", new DialogInterface.OnClickListener(){
-                 public void onClick(DialogInterface dialog, int which) {
-                    in_lose = false;
-                    ResetEverything();
-                 }
-              }).show();
    }
 
 }

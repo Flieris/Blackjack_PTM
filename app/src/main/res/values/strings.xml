@@ -8,4 +8,5 @@
     <string name="player_score">Player\'s score</string>
     <string name="hit_me">Hit</string>
     <string name="pick_difficulty">Pick Difficulty</string>
+   <string name="player_money">Money = 1000$</string>
 </resources>
