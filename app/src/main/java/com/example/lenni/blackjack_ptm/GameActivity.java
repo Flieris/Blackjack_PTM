@@ -12,6 +12,8 @@ import android.widget.Toast;
 import rjsv.floatingmenu.floatingmenubutton.FloatingMenuButton;
 import rjsv.floatingmenu.floatingmenubutton.subbutton.FloatingSubButton;
 
+import static android.os.SystemClock.sleep;
+
 public class GameActivity extends AppCompatActivity {
    TextView user_text, dealer_text, money_text;
    CardDeck my_deck;
@@ -200,37 +202,76 @@ public class GameActivity extends AppCompatActivity {
       } else if (hand_value > dealer_value){
          ShowWin();
       } else{
-         Toast toast = Toast.makeText(getApplicationContext(),"Draw!",Toast.LENGTH_SHORT);
-         toast.show();
-         ResetEverything();
+         AlertDialog draw = new AlertDialog.Builder(this)
+                 .setTitle("Draw!")
+                 .setMessage("Draw! Do you want to play another?")
+                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which) {
+                       ResetEverything();
+                    }
+                 })
+                 .setNeutralButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                       finish();
+                    }
+                 }).show();
       }
    }
 
    private void ShowWin() {
       money += bet * 2;
-      Toast toast = Toast.makeText(getApplicationContext(), "You won this round!", Toast.LENGTH_SHORT);
-      toast.show();
-      ResetEverything();
+      AlertDialog win = new AlertDialog.Builder(this)
+              .setTitle("Round won!")
+              .setMessage("You won this round! Do you want to play another?")
+              .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                 public void onClick(DialogInterface dialog, int which) {
+                    ResetEverything();
+                 }
+              })
+              .setNeutralButton("No", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                 }
+              }).show();
    }
 
 
    public void ShowLose(){
       money -= bet*2;
       if (money > bet*2){
-         Toast toast = Toast.makeText(getApplicationContext(),"You lost this round!",Toast.LENGTH_SHORT);
-         toast.show();
-         ResetEverything();
-      }
-      else{
          AlertDialog lose = new AlertDialog.Builder(this)
-                 .setTitle("Game over!")
-                 .setMessage("You lose! Good day sir!")
-                 .setNeutralButton("Restart", new DialogInterface.OnClickListener(){
+                 .setTitle("Round lost!")
+                 .setMessage("You lost this round! Do you want to play another?")
+                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int which) {
-                       money = 100;
                        ResetEverything();
                     }
+                 })
+                 .setNeutralButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                       finish();
+                    }
                  }).show();
+      }
+   else{
+      AlertDialog lose = new AlertDialog.Builder(this)
+              .setTitle("Game over!")
+              .setMessage("You lost this game! Want to play another?")
+              .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                 public void onClick(DialogInterface dialog, int which) {
+                    money = 100;
+                    ResetEverything();
+                 }
+              })
+              .setNeutralButton("No", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                 }
+              }).show();
       }
 
    }
