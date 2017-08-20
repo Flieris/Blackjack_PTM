@@ -21,16 +21,4 @@
         android:layout_height="50dp"
         android:text="@string/new_game"
         android:layout_below="@id/continue_game"/>
-    <Button
-        android:id="@+id/leader_board"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/leader_board"
-        android:layout_below="@id/new_game"/>
-    <Button
-        android:id="@+id/exit_button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/exit"
-        android:layout_below="@id/leader_board"/>
 </RelativeLayout>

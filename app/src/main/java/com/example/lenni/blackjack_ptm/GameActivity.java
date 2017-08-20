@@ -1,6 +1,8 @@
 package com.example.lenni.blackjack_ptm;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.audiofx.BassBoost;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,10 +22,10 @@ public class GameActivity extends AppCompatActivity {
    ImageView player_image[], dealer_image[];
    FloatingSubButton hit_button, stand_button, surrender_button,bet_button;
    String player_name;
-   int player_dealt, user_hand[], dealer_hand[], dealer_dealt, money, bet;
+   int player_dealt, user_hand[], dealer_hand[], dealer_dealt, money, bet, difficulty;
    Integer hand_value, dealer_value;
    boolean in_win,in_lose, player_bust;
-
+   GameSettings settings;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,11 @@ public class GameActivity extends AppCompatActivity {
       money_text = (TextView)findViewById(R.id.player_money);
       money = 100;
       bet = 10;
-
+      money_text.setText("Money = " + money + "$");
+      Intent intent = getIntent();
+      settings = intent.getParcelableExtra(SettingsActivity.SETTINGS);
+      player_name = settings.getPlayerName();
+      difficulty = settings.getDifficulty();
       player_image = new ImageView[5];
       player_image[0] = (ImageView) findViewById(R.id.player_1);
       player_image[1] = (ImageView) findViewById(R.id.player_2);
@@ -98,7 +104,7 @@ public class GameActivity extends AppCompatActivity {
          player_image[i].setImageResource(R.drawable.back_blue);
          dealer_image[i].setImageResource(R.drawable.back_blue);
       }
-      String player = "Player's hand " + hand_value.toString();
+      String player = settings.getPlayerName() +" hand " + hand_value.toString();
       user_text.setText(player);
       String dealer = "Dealer's hand " + dealer_value.toString();
       dealer_text.setText(dealer);
@@ -108,8 +114,10 @@ public class GameActivity extends AppCompatActivity {
    private void GameStart(){
       player_dealt = 0;
       dealer_dealt = 0;
+      String player = settings.getPlayerName() +" hand " + hand_value.toString();
+      user_text.setText(player);
       my_deck = new CardDeck();
-      my_deck.CreateDeck();
+      my_deck.CreateDeck(1);
       my_deck.Shuffle();
       DealerCall();
    }
@@ -126,7 +134,7 @@ public class GameActivity extends AppCompatActivity {
             }
             dealer_value += my_deck.getCardValue(dealer_hand[c]);
          }
-         while(dealer_value > 21 && aces > 0){
+         while(dealer_value > 21 && aces > 0 && difficulty == 0){
             dealer_value -= 10;
             aces--;
          }
@@ -143,12 +151,21 @@ public class GameActivity extends AppCompatActivity {
          player_dealt++;
 
          for(int c = 0; c < player_dealt; c++){
+            hand_value += my_deck.getCardValue(user_hand[c]);
             if(my_deck.getCardValue(user_hand[c]) == 11){
                aces++;
+               if(difficulty == 1){
+                  hand_value -= 10;
+               }
             }
-            hand_value += my_deck.getCardValue(user_hand[c]);
          }
-         while(hand_value > 21 && aces > 0){
+        /* if (difficulty == 1){
+            while(aces > 0){
+               hand_value -= 10;
+               aces--;
+            }
+         }*/
+         while(hand_value > 21 && aces > 0 && difficulty == 0){
              hand_value -= 10;
              aces--;
           }
@@ -157,7 +174,7 @@ public class GameActivity extends AppCompatActivity {
             ShowLose();
          }
 
-         String output = "[Player] " + hand_value.toString();
+         String output = settings.getPlayerName() + " hand: " + hand_value.toString();
          user_text.setText(output);
       }
    }
@@ -183,7 +200,7 @@ public class GameActivity extends AppCompatActivity {
               .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                  @Override
                  public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
+                    QuitGame();
                  }
               })
               .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -213,7 +230,7 @@ public class GameActivity extends AppCompatActivity {
                  .setNeutralButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                       finish();
+                       QuitGame();
                     }
                  }).show();
       }
@@ -232,7 +249,7 @@ public class GameActivity extends AppCompatActivity {
               .setNeutralButton("No", new DialogInterface.OnClickListener() {
                  @Override
                  public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
+                    QuitGame();
                  }
               }).show();
    }
@@ -252,7 +269,7 @@ public class GameActivity extends AppCompatActivity {
                  .setNeutralButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                       finish();
+                       QuitGame();
                     }
                  }).show();
       }
@@ -269,11 +286,16 @@ public class GameActivity extends AppCompatActivity {
               .setNeutralButton("No", new DialogInterface.OnClickListener() {
                  @Override
                  public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
+                    QuitGame();
                  }
               }).show();
       }
 
+   }
+
+   public void QuitGame(){
+      Intent quit = new Intent(getApplicationContext(),MainActivity.class);
+      startActivity(quit);
    }
 
 }

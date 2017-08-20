@@ -10,15 +10,16 @@ public class CardDeck {
    private Card deck[];
    private int card_index;
    private int card_dealt;
+   public int deck_size;
 
-   public void CreateDeck(){
+   public void CreateDeck(int s){
       int first_card = R.drawable.zzzclubs_01;
       int next_card = first_card + 1;
       int card = 0;
-
+      deck_size = 52*s;
       final int value[] = {11,2,3,4,5,6,7,8,9,10,10,10,10};
 
-      deck = new Card[52];
+      deck = new Card[deck_size];
 
       for (int suit=0; suit< 4; suit++)
       {
@@ -32,22 +33,25 @@ public class CardDeck {
       }
 
       deck[0].setPrev(-1);
-      deck[51].setNext(-1);
+      deck[deck_size-1].setNext(-1);
 
-      // force shuffle on next read.
-      //card_dealt = 43;
    }
-
+   public void setDeckSize(int s){
+      deck_size = 52*s;
+   }
+   public int getDeckSize(){
+      return deck_size;
+   }
    public void Shuffle(){
       int swap;
-      for(int i = 0; i < 52;i++){
-         swap = (int)(Math.random() * 52);
+      for(int i = 0; i < deck_size;i++){
+         swap = (int)(Math.random() * deck_size);
          if (swap != i){
             Remove(i);
             addAfter(swap,i);
          }
       }
-      for(int i = 0; i <52; i++){
+      for(int i = 0; i < deck_size; i++){
          if(deck[i].getPrev() == -1){
             card_index = i;
             break;
@@ -93,6 +97,8 @@ public class CardDeck {
    }
 
    public int getCardResource(int card){
+      if (card > 52)
+         card -= 52;
       return deck[card].getResource();
    }
    public boolean needShuffle(){

@@ -1,6 +1,7 @@
 package com.example.lenni.blackjack_ptm;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
          @Override
          public void onClick(View view) {
             Toast.makeText(getApplicationContext(),"Difficulty picked", Toast.LENGTH_LONG).show();
-            DialogFragment newFragment = DifficultyDialog.newInstance();
-            newFragment.show(getFragmentManager(),"DifficultyDialogTag");
+            Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent);
          }
       });
    }
