@@ -295,7 +295,7 @@ public class GameActivity extends AppCompatActivity {
 
    public void QuitGame(){
       entry.setPlayerName(settings.getPlayerName());
-      entry.setScore(hand_value);
+      entry.setScore(money);
       LeaderBoardDbHelper db = new LeaderBoardDbHelper(this);
       db.addEntry(entry);
       Intent quit = new Intent(getApplicationContext(),MainActivity.class);
