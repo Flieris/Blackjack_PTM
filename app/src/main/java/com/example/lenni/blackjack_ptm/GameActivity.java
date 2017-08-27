@@ -26,14 +26,14 @@ public class GameActivity extends AppCompatActivity {
    Integer hand_value, dealer_value;
    boolean in_win,in_lose, player_bust;
    GameSettings settings;
-
+   LeaderboardEntry entry;
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_game);
       FloatingMenuButton floatingButton = (FloatingMenuButton) findViewById(R.id.action_pick_button);
       floatingButton.setAnchored(true);
-
+      entry = new LeaderboardEntry();
       player_bust = false;
       in_win = false;
       in_lose = false;
@@ -294,6 +294,10 @@ public class GameActivity extends AppCompatActivity {
    }
 
    public void QuitGame(){
+      entry.setPlayerName(settings.getPlayerName());
+      entry.setScore(hand_value);
+      LeaderBoardDbHelper db = new LeaderBoardDbHelper(this);
+      db.addEntry(entry);
       Intent quit = new Intent(getApplicationContext(),MainActivity.class);
       startActivity(quit);
    }
