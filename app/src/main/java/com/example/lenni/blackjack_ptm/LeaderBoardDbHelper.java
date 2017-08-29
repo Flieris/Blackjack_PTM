@@ -18,14 +18,15 @@ public class LeaderBoardDbHelper extends SQLiteOpenHelper{
    public static final String DATABASE_NAME = "leaderboard.db";
    static final String COLUMN_SCORE = "Score";
    static final String COLUMN_PLAYER = "Name";
+   static final String KEY_ID = "ID";
    static final String TABLE_LEADERBOARD = "Leaderboards";
    public LeaderBoardDbHelper(Context context){
       super(context, DATABASE_NAME, null, DATABASE_VERSION);
    }
    public void onCreate(SQLiteDatabase db){
 
-      db.execSQL("CREATE TABLE " + TABLE_LEADERBOARD + " (" + COLUMN_PLAYER+" Text ," +
-                  COLUMN_SCORE + " INTEGER PRIMARY KEY)");
+      db.execSQL("CREATE TABLE " + TABLE_LEADERBOARD + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "  + COLUMN_PLAYER+" Text ," +
+                  COLUMN_SCORE + " INTEGER)");
    }
    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
       db.execSQL("DROP TABLE IF EXISTS " + TABLE_LEADERBOARD);
@@ -38,7 +39,8 @@ public class LeaderBoardDbHelper extends SQLiteOpenHelper{
       values.put(COLUMN_PLAYER, entry.getPlayerName());
       values.put(COLUMN_SCORE, entry.getScore());
 
-      db.insert(TABLE_LEADERBOARD,null,values);
+      //db.insert(TABLE_LEADERBOARD,null,values);
+      db.replace(TABLE_LEADERBOARD,null,values);
       db.close();
    }
 
@@ -54,12 +56,18 @@ public class LeaderBoardDbHelper extends SQLiteOpenHelper{
       if (cursor.moveToFirst()){
          do{
             entry = new LeaderboardEntry();
-            entry.setPlayerName(cursor.getString(0));
-            entry.setScore(Integer.parseInt(cursor.getString(1)));
+            entry.setPlayerName(cursor.getString(1));
+            entry.setScore(Integer.parseInt(cursor.getString(2)));
 
             entries.add(entry);
          }while (cursor.moveToNext());
       }
       return entries;
+   }
+   public void resetDb(){
+      SQLiteDatabase db = this.getWritableDatabase();
+      db.execSQL("DROP TABLE IF EXISTS " + TABLE_LEADERBOARD);
+      db.execSQL("CREATE TABLE " + TABLE_LEADERBOARD + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "  + COLUMN_PLAYER+" Text ," +
+              COLUMN_SCORE + " INTEGER)");
    }
 }

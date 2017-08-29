@@ -12,8 +12,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-   Button continue_last_game;
-
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
       start_new_game.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-            Toast.makeText(getApplicationContext(),"Difficulty picked", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
             startActivity(intent);
          }

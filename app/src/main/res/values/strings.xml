@@ -92,4 +92,5 @@
 
    <string name="pref_title_vibrate">Vibrate</string>
    <string name="no_text">No data</string>
+   <string name="reset_board">Reset Leaderboards</string>
 </resources>

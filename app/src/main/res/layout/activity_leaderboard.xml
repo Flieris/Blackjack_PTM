@@ -6,8 +6,31 @@
    android:layout_width="match_parent"
    android:layout_height="match_parent"
    tools:context="com.example.lenni.blackjack_ptm.Leaderboard">
+
+   <Button
+      android:id="@+id/reset_board"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:layout_marginBottom="6dp"
+      android:layout_marginLeft="8dp"
+      android:layout_marginRight="8dp"
+      android:text="@string/reset_board"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"/>
+
    <ListView
       android:id="@android:id/android:list"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+      android:layout_width="368dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      app:layout_constraintBottom_toTopOf="@+id/reset_board"
+      android:layout_marginLeft="8dp"
+      app:layout_constraintLeft_toLeftOf="parent"
+      android:layout_marginRight="8dp"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      android:layout_marginTop="8dp"/>
 </android.support.constraint.ConstraintLayout>
