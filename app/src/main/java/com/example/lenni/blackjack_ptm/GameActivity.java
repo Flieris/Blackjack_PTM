@@ -20,7 +20,7 @@ public class GameActivity extends AppCompatActivity {
    TextView user_text, dealer_text, money_text;
    CardDeck my_deck;
    ImageView player_image[], dealer_image[];
-   FloatingSubButton hit_button, stand_button, surrender_button,bet_button;
+   FloatingSubButton hit_button, stand_button, surrender_button;
    String player_name;
    int player_dealt, user_hand[], dealer_hand[], dealer_dealt, money, bet, difficulty;
    Integer hand_value, dealer_value;
@@ -89,13 +89,6 @@ public class GameActivity extends AppCompatActivity {
          }
       });
 
-      bet_button = (FloatingSubButton)findViewById(R.id.bet_action);
-      bet_button.setOnClickListener(new View.OnClickListener(){
-         @Override
-         public void onClick(View view){
-            ChangeBet();
-         }
-      });
    }
    public void ResetEverything(){
       hand_value = 0;
@@ -209,9 +202,6 @@ public class GameActivity extends AppCompatActivity {
 
                  }
               }).show();
-   }
-   private void ChangeBet(){
-
    }
    private void CompareScore() {
       if (dealer_value > hand_value){

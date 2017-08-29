@@ -5,13 +5,14 @@
    xmlns:tools="http://schemas.android.com/tools"
    android:layout_width="match_parent"
    android:layout_height="match_parent"
+   android:background="@drawable/table_felt"
    tools:context="com.example.lenni.blackjack_ptm.SettingsActivity">
    <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:id="@+id/TextView"
       android:text="@string/Difficulty_tv"
-      android:textColor="#000000"
+      android:textColor="#FFFFFF"
       android:layout_marginBottom="8dp"
       app:layout_constraintBottom_toTopOf="@+id/difficulty_pick"
       app:layout_constraintTop_toTopOf="parent"
@@ -36,6 +37,7 @@
          android:layout_height="wrap_content"
          android:layout_weight="1"
          android:text="@string/normal_difficulty"
+         android:textColor="#FFFFFF"
          tools:layout_editor_absoluteX="8dp"
          tools:layout_editor_absoluteY="139dp"
          android:checked="true"/>
@@ -46,6 +48,7 @@
          android:layout_height="wrap_content"
          android:layout_weight="1"
          android:text="@string/different_difficulty"
+         android:textColor="#FFFFFF"
          tools:layout_editor_absoluteX="8dp"
          tools:layout_editor_absoluteY="426dp"/>
    </RadioGroup>
@@ -55,6 +58,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/player_choice"
+      android:textColor="#FFFFFF"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintRight_toRightOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
@@ -69,10 +73,12 @@
       android:layout_height="wrap_content"
       android:id="@+id/player_et"
       android:text="@string/player_et"
+      android:textColor="#ffffff"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
       app:layout_constraintHorizontal_bias="0.0"
       android:layout_marginTop="8dp"
+      android:inputType="textImeMultiLine|textNoSuggestions"
       app:layout_constraintTop_toBottomOf="@+id/player_choice"
       android:layout_marginRight="8dp"
       android:layout_marginLeft="8dp"

@@ -165,11 +165,6 @@
          android:layout_height="50dp"
          android:background="@drawable/casino_chip_red"/>
 
-      <rjsv.floatingmenu.floatingmenubutton.subbutton.FloatingSubButton
-         android:id="@+id/bet_action"
-         android:layout_width="50dp"
-         android:layout_height="50dp"
-         android:background="@drawable/casino_chip"/>
 
    </rjsv.floatingmenu.floatingmenubutton.FloatingMenuButton>
 </android.support.constraint.ConstraintLayout>

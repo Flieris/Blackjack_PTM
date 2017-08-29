@@ -5,22 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/table_felt"
     tools:context="com.example.lenni.blackjack_ptm.MainActivity">
 
-    <Button
-        android:id="@+id/continue_game"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/continue_game"
-        android:enabled="false"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+   <ImageView
+      android:id="@+id/logo"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/game_logo"/>
+
     <Button
         android:id="@+id/new_game"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="@string/new_game"
-        android:layout_below="@id/continue_game"/>
+        android:layout_below="@id/logo"/>
    <Button
       android:id="@+id/leaderboard_button"
       android:layout_width="match_parent"
